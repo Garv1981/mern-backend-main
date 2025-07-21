@@ -1,3 +1,38 @@
+// import express from "express";
+// import mongoose from "mongoose";
+// import dotenv from "dotenv";
+// import userRouter from "./routes/userRoute.js";
+// import productRouter from "./routes/productRoute.js";
+// import orderRouter from "./routes/orderRoute.js"
+// import cors from "cors";
+// dotenv.config();
+// const app = express();
+// app.use(cors());
+// app.use(express.json());
+// const dbuser = encodeURIComponent(process.env.DBUSER);
+// const dbpass = encodeURIComponent(process.env.DBPASS);
+
+// // mongoose.connect(`mongodb://localhost:27017/merncafe`).then(() => {
+// //   app.listen(8080, () => {
+// //     console.log("Server started");
+// //   });
+// // });
+
+// mongoose
+//   .connect(
+//     `mongodb+srv://${dbuser}:${dbpass}@cluster0.fyiogqb.mongodb.net/merndb?retryWrites=true&w=majority&appName=Cluster0`
+//   )
+//   .then(() => {
+//     app.listen(8080, () => {
+//       console.log("Server started");
+//     });
+//   });
+
+// app.use("/api/users", userRouter);
+// app.use("/api/products", productRouter);
+// app.use("/api/orders", orderRouter)
+// //hello World
+
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
@@ -5,18 +40,20 @@ import userRouter from "./routes/userRoute.js";
 import productRouter from "./routes/productRoute.js";
 import orderRouter from "./routes/orderRoute.js"
 import cors from "cors";
+
 dotenv.config();
 const app = express();
-app.use(cors());
+
+// ✅ Proper CORS setup for frontend on Vercel
+app.use(cors({
+  origin: 'https://mern-frontend-main-kohl.vercel.app',
+  credentials: true
+}));
+
 app.use(express.json());
+
 const dbuser = encodeURIComponent(process.env.DBUSER);
 const dbpass = encodeURIComponent(process.env.DBPASS);
-
-// mongoose.connect(`mongodb://localhost:27017/merncafe`).then(() => {
-//   app.listen(8080, () => {
-//     console.log("Server started");
-//   });
-// });
 
 mongoose
   .connect(
@@ -30,5 +67,4 @@ mongoose
 
 app.use("/api/users", userRouter);
 app.use("/api/products", productRouter);
-app.use("/api/orders", orderRouter)
-//hello World
+app.use("/api/orders", orderRouter);
